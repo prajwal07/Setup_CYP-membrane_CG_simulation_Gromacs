@@ -1,0 +1,142 @@
+set output_alpha [open "polar-wat_alpha_angle.dat" w]
+set output_beta [open "polar-wat_beta_angle.dat" w]
+set output_TM [open "polar-wat_TM_angle.dat" w]
+set output_COM [open "polar-wat_mass_center.dat" w]
+set output_linker [open "polar-wat_linker-mem_distance.dat" w]
+set output_FG [open "polar-wat_FG-mem_distance.dat" w]
+
+mol new ../../Equil/cg_2c9_mut_npw_equil.gro
+mol addfile ../center_md1.xtc type xtc waitfor all
+#mol addfile ../center_md2.xtc type xtc waitfor all
+###mol addfile ../center_md2.xtc type xtc waitfor all
+
+##mol addfile ../cg_2c9_ori_1_pw_md/center_md2.xtc type xtc waitfor all
+
+##mol addfile /hits/fast/mcm/mustafa/1r9o_model1_cg/ori_1/cg_1r9o1_mem_ori_1_polar-wat_md/center_md2.xtc type xtc waitfor all
+
+
+set numframes [molinfo 0 get numframes]
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set p_alpha1 [atomselect 0 "name BB and resid 285 to 289" frame $frame]
+set c_alpha1 [measure center $p_alpha1 weight mass]
+set p_alpha2 [atomselect 0 "name BB and resid 312 to 316" frame $frame]
+set c_alpha2 [measure center $p_alpha2 weight mass]
+
+set ax_alpha [vecsub $c_alpha2 $c_alpha1]
+set lax_alpha [veclength $ax_alpha]
+set k "0 0 1"
+
+set dot_alpha [vecdot $ax_alpha $k]
+set cos_alpha [expr "$dot_alpha / $lax_alpha"]
+
+set ang_rad_alpha [tcl::mathfunc::acos "$cos_alpha"]
+set ang_deg_alpha [expr "57.2957795 * $ang_rad_alpha"]
+
+puts $output_alpha "$frame $ang_deg_alpha"
+puts "$frame $ang_deg_alpha"
+
+$p_alpha1 delete
+$p_alpha2 delete
+}
+
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set p_beta1 [atomselect 0 "name BB and resid 127 to 131" frame $frame]
+set c_beta1 [measure center $p_beta1 weight mass]
+set p_beta2 [atomselect 0 "name BB and resid 197 to 201" frame $frame]
+set c_beta2 [measure center $p_beta2 weight mass]
+
+set ax_beta [vecsub $c_beta2 $c_beta1]
+set lax_beta [veclength $ax_beta]
+set k "0 0 1"
+
+set dot_beta [vecdot $ax_beta $k]
+set cos_beta [expr "$dot_beta / $lax_beta"]
+
+set ang_rad_beta [tcl::mathfunc::acos "$cos_beta"]
+set ang_deg_beta [expr "57.2957795 * $ang_rad_beta"]
+
+puts $output_beta "$frame $ang_deg_beta"
+puts "$frame $ang_deg_beta"
+
+$p_beta1 delete
+$p_beta2 delete
+}
+
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set p_TM1 [atomselect 0 "name BB and resid 2 to 6" frame $frame]
+set c_TM1 [measure center $p_TM1 weight mass]
+set p_TM2 [atomselect 0 "name BB and resid 17 to 21" frame $frame]
+set c_TM2 [measure center $p_TM2 weight mass]
+
+set ax_TM [vecsub $c_TM2 $c_TM1]
+set lax_TM [veclength $ax_TM]
+set k "0 0 1"
+
+set dot_TM [vecdot $ax_TM $k]
+set cos_TM [expr "$dot_TM / $lax_TM"]
+
+set ang_rad_TM [tcl::mathfunc::acos "$cos_TM"]
+set ang_deg_TM [expr "57.2957795 * $ang_rad_TM"]
+
+puts $output_TM "$frame $ang_deg_TM"
+puts "$frame $ang_deg_TM"
+
+$p_TM1 delete
+$p_TM2 delete
+}
+
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set pro [atomselect 0 "resid 48 to 490 and not resname PW POPC" frame $frame]
+set center [measure center $pro weight mass]
+
+set pop [atomselect 0 "resname POPC" frame $frame]
+set pop_center [measure center $pop weight mass]
+
+puts $output_COM "$frame $center $pop_center"
+		
+$pro delete
+$pop delete
+
+}
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set linker [atomselect 0 "resid 22 to 47 and not resname PW POPC" frame $frame]
+set center1 [measure center $linker weight mass]
+
+set pop [atomselect 0 "resname POPC" frame $frame]
+set pop_center [measure center $pop weight mass]
+
+puts $output_linker "$frame $center1 $pop_center"
+puts "$frame $center1 $pop_center"
+		
+$linker delete
+$pop delete
+
+}
+
+for {set frame 0} {$frame < $numframes} {incr frame} {
+
+set FG [atomselect 0 "resid 210 to 228 and not resname PW POPC" frame $frame]
+set center2 [measure center $FG weight mass]
+
+set pop [atomselect 0 "resname POPC" frame $frame]
+set pop_center [measure center $pop weight mass]
+
+puts $output_FG "$frame $center2 $pop_center"
+puts "$frame $center2 $pop_center"
+		
+$FG delete
+$pop delete
+
+}
+
+quit
