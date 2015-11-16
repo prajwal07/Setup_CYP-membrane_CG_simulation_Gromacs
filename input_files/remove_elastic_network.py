@@ -38,7 +38,7 @@ for line1 in input_ITP_file.readlines():
     if (line1.find("RUBBER_FC*1.000000")>0) and ((int(line[0]) > 67 and int(line[0]) < 93) or (int(line[1]) > 67 and int(line[1]) < 93)): 
         output_removed_lines_file.write(line1)
 
-    elif (aa in aa_name) and ((int(line[0]) > 67 and int(line[0]) < 93) or (int(line[1]) > 67 and int(line[1]) < 93)):
+"""    elif (aa in aa_name) and ((int(line[0]) > 67 and int(line[0]) < 93) or (int(line[1]) > 67 and int(line[1]) < 93)):
         output_removed_lines_file.write(line1)
 
     elif (ba in aa_name) and ((int(line[0]) > 67 and int(line[0]) < 93) and (int(line[1]) > 67 and int(line[1]) < 93) or (int(line[0]) > 67 and int(line[0]) < 93) and (int(line[2]) > 67 and int(line[2]) <93)):
@@ -46,7 +46,7 @@ for line1 in input_ITP_file.readlines():
 
     elif (da in aa_name) and ((int(line[0]) > 67 and int(line[0]) < 93) and ((int(line[1]) > 67 and int(line[1]) < 93) or (int(line[2]) >67 and int(line[2]) <93) or (int(line[3]) >67 and int(line[3]) <93))):
         output_removed_lines_file.write(line1)
-
+"""
 
     else:
 	output_ITP_file.write(line1)
