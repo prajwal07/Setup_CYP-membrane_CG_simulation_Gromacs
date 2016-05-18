@@ -9,7 +9,7 @@
 
 export PATH="/hits/fast/mcm/app/gromacs/gromacs5.0.6/compiled/bin":$PATH
 
-input_files_PATH=/hits/fast/mcm/nandekpl/mustafa_shared/input_files;
+input_files_PATH=/hits/fast/mcm/nandekpl/software/Setup_CYP-membrane_CG_simulation_Gromacs/input_files;
 echo $input_files_PATH;
 echo "Copy necessary files from directory $input_files_PATH";
 
