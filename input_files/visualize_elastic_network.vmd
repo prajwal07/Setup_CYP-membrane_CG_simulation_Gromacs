@@ -1,0 +1,4 @@
+mol new cg_CYP_ori1.ion.pdb
+source /hits/fast/mcm/nandekpl/software/Setup_CYP-membrane_CG_simulation_Gromacs/input_files/cg_bonds.tcl
+cg_bonds -top cg_CYP_ori1.top -topoltype "elastic"
+cg_bonds -gmx /hits/fast/mcm/app/gromacs/gromacs5.0.6/compiled/bin/gmxdump -tpr cg_CYP_ori1.w_min_0.tpr -net "elastic" -cutoff 9.0 -color "orange" -mat "AOChalky" -res 12 -rad 0.1 -topoltype "elastic"
